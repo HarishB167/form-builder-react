@@ -1,0 +1,35 @@
+.newQuestion {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.newQuestion__options__addOption {
+  width: fit-content;
+}
+
+.newQuestion__options {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.newQuestion__option {
+  display: flex;
+  column-gap: 20px;
+}
+
+.newQuestion__topLine {
+  display: flex;
+  justify-content: space-between;
+}
+
+.newQuestion__text input {
+  width: 100%;
+}
+
+.newQuestion__typeText label {
+  display: block;
+}

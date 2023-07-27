@@ -1,0 +1,16 @@
+.comprehensionElement {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid black;
+  row-gap: 10px;
+}
+
+.comprehensionElement__topLine {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comprehensionElement__text textarea {
+  width: 100%;
+}

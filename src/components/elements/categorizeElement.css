@@ -1,0 +1,23 @@
+.categorizeElement {
+  padding: 10px;
+  border: 1px solid black;
+  margin: 10px 0;
+}
+
+.categorizeElement__description {
+  display: flex;
+  justify-content: space-between;
+}
+
+.categorizeElement__categories,
+.categorizeElement__items {
+  display: flex;
+  flex-direction: column;
+}
+
+.categorizeElement__category,
+.categorizeElement__item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
