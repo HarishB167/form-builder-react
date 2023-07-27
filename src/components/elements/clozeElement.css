@@ -6,9 +6,19 @@
   row-gap: 10px;
 }
 
+.clozeElement__headingLine {
+  display: flex;
+  justify-content: space-between;
+}
+
 .clozeElement__line {
   display: flex;
   flex-direction: column;
+}
+
+.clozeElement__preview {
+  border: 1px solid black;
+  height: 2rem;
 }
 
 .clozeElement__btnUnderline {

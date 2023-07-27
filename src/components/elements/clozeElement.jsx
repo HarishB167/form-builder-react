@@ -46,6 +46,7 @@ const ClozeElement = () => {
   const [image, setImage] = useState("");
   const [options, setOptions] = useState([]);
   const [maskingRanges, setMaskingRanges] = useState([]);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -128,53 +129,63 @@ const ClozeElement = () => {
 
   return (
     <div className="clozeElement">
-      <div className="clozeElement__line">
-        <span>Preview</span>
-        <div className="clozeElement__preview">{getPreview()}</div>
-      </div>
-      <div className="clozeElement__line">
-        <span>Sentence</span>
-        <input
-          type="text"
-          ref={inputRef}
-          value={text}
-          onChange={handleTextChange}
-        />
-        <button
-          className="clozeElement__btnUnderline"
-          onClick={handleUnderline}
-        >
-          Underline
+      <div className="clozeElement__headingLine">
+        Cloze Element
+        <button onClick={() => setIsCollapsed(!isCollapsed)}>
+          {isCollapsed ? "+" : "-"}
         </button>
       </div>
-      <div className="clozeElement__line__image">
-        <span>Add Image (Optional): </span>
-        <input
-          type="file"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
-      </div>
-      <div className="clozeElement__options">
-        <button
-          className="clozeElement__options__addOption"
-          onClick={handleAddOption}
-        >
-          Add Option
-        </button>
-        {options.map((item, idx) => (
-          <Option
-            key={idx}
-            data={item}
-            optionNo={idx + 1}
-            handleOptionChange={handleOptionChange}
-            handleRemoveOption={handleOptionRemove}
-            handleOrderChange={handleOptionOrderChange}
-            isLast={options.length === idx + 1}
-            isFirst={idx === 0}
-          />
-        ))}
-      </div>
+      {!isCollapsed && (
+        <>
+          <div className="clozeElement__line">
+            <span>Preview</span>
+            <div className="clozeElement__preview">{getPreview()}</div>
+          </div>
+          <div className="clozeElement__line">
+            <span>Sentence</span>
+            <input
+              type="text"
+              ref={inputRef}
+              value={text}
+              onChange={handleTextChange}
+            />
+            <button
+              className="clozeElement__btnUnderline"
+              onClick={handleUnderline}
+            >
+              Underline
+            </button>
+          </div>
+          <div className="clozeElement__line__image">
+            <span>Add Image (Optional): </span>
+            <input
+              type="file"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+            />
+          </div>
+          <div className="clozeElement__options">
+            <button
+              className="clozeElement__options__addOption"
+              onClick={handleAddOption}
+            >
+              Add Option
+            </button>
+            {options.map((item, idx) => (
+              <Option
+                key={idx}
+                data={item}
+                optionNo={idx + 1}
+                handleOptionChange={handleOptionChange}
+                handleRemoveOption={handleOptionRemove}
+                handleOrderChange={handleOptionOrderChange}
+                isLast={options.length === idx + 1}
+                isFirst={idx === 0}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

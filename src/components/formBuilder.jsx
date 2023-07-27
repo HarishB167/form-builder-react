@@ -1,60 +1,71 @@
 import { useState } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Stack from "react-bootstrap/Stack";
 import CategorizeElement from "./elements/categorizeElement";
 import ClozeElement from "./elements/clozeElement";
 import ComprehensionElement from "./elements/comprehensionElement";
+import "./formBuilder.css";
 
 const FormBuilder = () => {
   const [questions, setQuestions] = useState([]);
 
+  const handleRemoveItem = (idx) => {
+    console.log("idx :>> ", idx);
+    const q = [...questions];
+    console.log("q before :>> ", q);
+    q.splice(idx, 1);
+    console.log("q :>> ", q);
+    setQuestions(q);
+  };
+
+  const addQuestion = (questionItem, idx) => {
+    const elem = (
+      <div>
+        {questionItem}
+        <button onClick={() => handleRemoveItem(idx)}>x</button>
+      </div>
+    );
+    setQuestions([...questions, elem]);
+  };
+
   const handleAddCategorizingQuestion = () => {
     console.log("Adding categorizing question");
-    setQuestions([...questions, <CategorizeElement key={questions.length} />]);
+    addQuestion(
+      <CategorizeElement key={questions.length} />,
+      questions.length - 1
+    );
   };
 
   const handleAddClozeQuestion = () => {
     console.log("Adding cloze question");
-    setQuestions([...questions, <ClozeElement key={questions.length} />]);
+    addQuestion(<ClozeElement key={questions.length} />, questions.length - 1);
   };
 
   const handleAddComprehensionQuestion = () => {
     console.log("Adding comprehension question");
-    setQuestions([
-      ...questions,
+    addQuestion(
       <ComprehensionElement key={questions.length} />,
-    ]);
+      questions.length - 1
+    );
   };
 
   return (
-    <Container fluid>
-      <Row>
-        <Col style={{ background: "red" }}>Form builder</Col>
-      </Row>
-      <Row>
-        <Col xs={2}>
-          <Stack gap={3}>
-            <Button variant="success" onClick={handleAddCategorizingQuestion}>
-              Add categorizing question
-            </Button>
-            <Button variant="success" onClick={handleAddClozeQuestion}>
-              Add cloze question
-            </Button>
-            <Button variant="success" onClick={handleAddComprehensionQuestion}>
-              Add comprehension question
-            </Button>
-          </Stack>
-        </Col>
-        <Col>
-          <div>Displaying items</div>
+    <div className="formBuilder">
+      <div className="formBuilder__title">Form Builder</div>
+      <div className="formBuilder__content">
+        <div className="formBuilder__actions">
+          <button onClick={handleAddCategorizingQuestion}>
+            Add categorizing question
+          </button>
+          <button onClick={handleAddClozeQuestion}>Add cloze question</button>
+          <button onClick={handleAddComprehensionQuestion}>
+            Add comprehension question
+          </button>
+        </div>
+        <div className="formBuilder__itemsList">
+          <div>Displaying Items</div>
           <div>{questions}</div>
-        </Col>
-        <Col xs={2}>Right side view</Col>
-      </Row>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 
