@@ -87,9 +87,8 @@ const CategorizeElement = () => {
                 </Button>
               </span>
               {categories.map((item, idx) => (
-                <div className="categorizeElement__category">
+                <div className="categorizeElement__category" key={idx}>
                   <input
-                    key={idx}
                     data-id={idx}
                     value={item}
                     onChange={handleChangeCategory}
@@ -116,9 +115,8 @@ const CategorizeElement = () => {
                 </Button>
               </span>
               {items.map((item, idx) => (
-                <div className="categorizeElement__item">
+                <div className="categorizeElement__item" key={idx}>
                   <input
-                    key={idx}
                     data-id={idx}
                     type="text"
                     placeholder={`Item ${idx + 1}`}

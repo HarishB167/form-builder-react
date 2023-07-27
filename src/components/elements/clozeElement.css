@@ -1,31 +1,26 @@
 .clozeElement {
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
   border: 1px solid black;
-  margin: 10px 0;
+  row-gap: 10px;
 }
 
-.clozeElement__inputLines {
+.clozeElement__line {
   display: flex;
   flex-direction: column;
 }
 
-.custom-input {
-  border: 1px solid #ccc;
-  padding: 10px;
-  min-height: 40px;
-  outline: none;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  word-break: break-word;
+.clozeElement__btnUnderline {
+  width: fit-content;
 }
 
-.custom-input::selection {
-  background-color: #e6e6e6;
-  color: green;
-  text-decoration: underline;
+.clozeElement__option {
+  display: flex;
+  column-gap: 10px;
 }
 
-.custom-input::-moz-selection {
-  background-color: #e6e6e6;
+.clozeElement_underline {
   text-decoration: underline;
+  font-weight: bold;
 }
