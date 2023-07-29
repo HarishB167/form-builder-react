@@ -1,9 +1,27 @@
 .newQuestion {
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
-  border: 1px solid black;
-  padding: 10px;
+  row-gap: 1.5rem;
+  border: 1px solid #d3d3d3;
+  padding: 1.5rem;
+}
+
+.newQuestion__topLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.newQuestion__select,
+.newQuestion__text input,
+.newQuestion__option input[type="text"],
+.newQuestion__typeText input[type="number"] {
+  border: 2px solid lightgray;
+  height: fit-content;
+  min-height: 2rem;
+  border-radius: 5px;
+  padding: 0.1rem 0.5rem;
+  background-color: white;
 }
 
 .newQuestion__options__addOption {
@@ -13,23 +31,20 @@
 .newQuestion__options {
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 0.5rem;
+}
+
+.newQuestion__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.newQuestion__typeText label {
+  display: block;
+  margin-top: 0.5rem;
 }
 
 .newQuestion__option {
   display: flex;
   column-gap: 20px;
-}
-
-.newQuestion__topLine {
-  display: flex;
-  justify-content: space-between;
-}
-
-.newQuestion__text input {
-  width: 100%;
-}
-
-.newQuestion__typeText label {
-  display: block;
 }

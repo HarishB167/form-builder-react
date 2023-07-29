@@ -1,4 +1,6 @@
 import { useState } from "react";
+import ActionButton from "../common/actionButton";
+import Button from "../common/button";
 import "./newQuestion.css";
 
 const Option = ({
@@ -21,7 +23,7 @@ const Option = ({
         value={data.text}
         onChange={(e) => handleTextChange(index, e)}
       />
-      <button onClick={() => handleRemoveOption(index)}>x</button>
+      <ActionButton onClick={() => handleRemoveOption(index)} label="x" />
     </div>
   );
 };
@@ -98,7 +100,11 @@ const NewQuestion = ({ handleAddQuestion }) => {
     <div className="newQuestion">
       <div className="newQuestion__topLine">
         <span>Question</span>
-        <select onChange={handleQuestionTypeChange} value={questionType}>
+        <select
+          className="newQuestion__select"
+          onChange={handleQuestionTypeChange}
+          value={questionType}
+        >
           <option>MCQ</option>
           <option>Text</option>
         </select>
@@ -113,12 +119,7 @@ const NewQuestion = ({ handleAddQuestion }) => {
       </div>
       {questionType == "MCQ" && (
         <div className="newQuestion__options">
-          <button
-            className="newQuestion__options__addOption"
-            onClick={handleAddOption}
-          >
-            Add Option
-          </button>
+          <Button onClick={handleAddOption} label="Add Option" />
           {options.map((option, index) => (
             <Option
               key={index}
@@ -160,7 +161,7 @@ const NewQuestion = ({ handleAddQuestion }) => {
         </div>
       )}
 
-      <button onClick={handleSaveQuestion}>Save</button>
+      <Button label="Save" onClick={handleSaveQuestion} />
     </div>
   );
 };
