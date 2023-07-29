@@ -1,6 +1,7 @@
 import React, { useState, cloneElement } from "react";
 import CategorizeElement from "./elements/categorizeElement";
 import ClozeElement from "./elements/clozeElement";
+import Button from "./elements/common/button";
 import ComprehensionElement from "./elements/comprehensionElement";
 import "./formBuilder.css";
 
@@ -61,12 +62,15 @@ const FormBuilder = () => {
           </button>
         </div>
         <div className="formBuilder__list">
-          <div className="formBuilder__listTitle">Displaying Items</div>
+          <div className="formBuilder__listTitle">Create Form</div>
           <div className="formBuilder__listItems">
             {questions.map((item, idx) =>
               cloneElement(item.element, { key: idx, collapsed: true })
             )}
           </div>
+        </div>
+        <div className="formBuilder_sideBarRight">
+          <Button label="Save" />
         </div>
       </div>
     </div>

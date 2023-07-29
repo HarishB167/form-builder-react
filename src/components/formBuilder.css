@@ -1,3 +1,6 @@
+.formBuilder {
+  height: 88vh;
+}
 .formBuilder__title {
   color: red;
   font-size: 1.5rem;
@@ -8,6 +11,7 @@
 .formBuilder__content {
   display: flex;
   background-color: #e0e4f4;
+  height: 100%;
 }
 
 .formBuilder__actions {
@@ -69,12 +73,23 @@
 }
 
 .formBuilder__listTitle {
-  background-color: yellow;
-  margin-top: 10px;
+  background-color: white;
+  margin: 1rem 0;
+  padding: 1rem;
 }
 
 .formBuilder__listItems {
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+}
+
+.formBuilder_sideBarRight {
+  background-color: white;
+  flex: 1;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
 }
