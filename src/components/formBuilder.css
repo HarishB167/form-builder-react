@@ -72,3 +72,9 @@
   background-color: yellow;
   margin-top: 10px;
 }
+
+.formBuilder__listItems {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}

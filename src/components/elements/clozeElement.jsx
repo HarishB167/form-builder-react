@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import ElementContainer from "./common/elementContainer";
 import Button from "./common/button";
 import Option from "./common/option";
 import ImagePicker from "./common/imagePicker";
@@ -98,7 +99,7 @@ const ClozeElement = () => {
   };
 
   return (
-    <div className="clozeElement">
+    <ElementContainer>
       <div className="clozeElement__headingLine">
         <div className="clozeElement__heading">Cloze Element</div>
         <Button
@@ -147,7 +148,7 @@ const ClozeElement = () => {
           </div>
         </>
       )}
-    </div>
+    </ElementContainer>
   );
 };
 

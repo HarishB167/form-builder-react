@@ -18,7 +18,7 @@ const FormBuilder = () => {
 
   const addQuestion = (questionItem, idx) => {
     const elem = (
-      <div className="formBuilder__quesRow">
+      <div className="formBuilder__quesRow" key={idx}>
         {questionItem}
         <button
           className="formBuilder__btnRemove"
@@ -67,7 +67,7 @@ const FormBuilder = () => {
         </div>
         <div className="formBuilder__list">
           <div className="formBuilder__listTitle">Displaying Items</div>
-          <div>{questions}</div>
+          <div className="formBuilder__listItems">{questions}</div>
         </div>
       </div>
     </div>
