@@ -4,6 +4,7 @@
   padding: 20px;
   border: 1px solid black;
   row-gap: 10px;
+  flex: 1;
 }
 
 .comprehensionElement__topLine {

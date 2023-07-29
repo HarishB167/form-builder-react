@@ -18,9 +18,14 @@ const FormBuilder = () => {
 
   const addQuestion = (questionItem, idx) => {
     const elem = (
-      <div>
+      <div className="formBuilder__quesRow">
         {questionItem}
-        <button onClick={() => handleRemoveItem(idx)}>x</button>
+        <button
+          className="formBuilder__btnRemove"
+          onClick={() => handleRemoveItem(idx)}
+        >
+          x
+        </button>
       </div>
     );
     setQuestions([...questions, elem]);
@@ -60,8 +65,8 @@ const FormBuilder = () => {
             Add comprehension question
           </button>
         </div>
-        <div className="formBuilder__itemsList">
-          <div>Displaying Items</div>
+        <div className="formBuilder__list">
+          <div className="formBuilder__listTitle">Displaying Items</div>
           <div>{questions}</div>
         </div>
       </div>

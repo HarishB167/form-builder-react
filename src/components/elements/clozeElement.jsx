@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./clozeElement.css";
 
 const Option = ({
@@ -32,11 +31,29 @@ const Option = ({
         placeholder={`Option ${optionNo}`}
         onChange={(e) => handleChange(optionNo, e)}
       />
-      {data.startIdx === null && (
-        <button onClick={() => handleRemoveOption(optionNo)}>x</button>
-      )}
-      {!isFirst && <button onClick={handleMoveUp}>&#8679;</button>}
-      {!isLast && <button onClick={handleMoveDown}>&#8681;</button>}
+      <div className="clozeElement_optionActions">
+        {!isLast && (
+          <button
+            className="clozeElement__btnMoveDown"
+            onClick={handleMoveDown}
+          >
+            &#8681;
+          </button>
+        )}
+        {!isFirst && (
+          <button className="clozeElement__btnMoveUp" onClick={handleMoveUp}>
+            &#8679;
+          </button>
+        )}
+        {data.startIdx === null && (
+          <button
+            className="clozeElement__btnRemove"
+            onClick={() => handleRemoveOption(optionNo)}
+          >
+            x
+          </button>
+        )}
+      </div>
     </div>
   );
 };
@@ -67,7 +84,7 @@ const ClozeElement = () => {
   };
 
   const handleAddOption = () => {
-    setOptions([...options, { test: "", startIdx: null }]);
+    setOptions([...options, { text: "", startIdx: null }]);
   };
 
   const handleOptionRemove = (optionNo) => {
@@ -94,6 +111,14 @@ const ClozeElement = () => {
   };
 
   const handleRemoveMask = (maskIdx) => {
+    if (maskingRanges.length > 0) {
+      const idx = options.findIndex(
+        (item) =>
+          maskingRanges[maskIdx] && item.startIdx === maskingRanges[maskIdx][0]
+      );
+      handleOptionRemove(idx + 1);
+    }
+
     const masks = [...maskingRanges];
     masks.splice(maskIdx, 1);
     setMaskingRanges([...masks]);
@@ -117,7 +142,7 @@ const ClozeElement = () => {
         <span
           className={className}
           key={i}
-          onClick={() => handleRemoveMask(maskIdx)}
+          onClick={() => (maskIdx > -1 ? handleRemoveMask(maskIdx) : {})}
         >
           {text.charAt(i)}
         </span>
@@ -130,35 +155,40 @@ const ClozeElement = () => {
   return (
     <div className="clozeElement">
       <div className="clozeElement__headingLine">
-        Cloze Element
-        <button onClick={() => setIsCollapsed(!isCollapsed)}>
+        <div className="clozeElement__heading">Cloze Element</div>
+        <button
+          className="clozeElement__btnCollapse"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+        >
           {isCollapsed ? "+" : "-"}
         </button>
       </div>
       {!isCollapsed && (
         <>
           <div className="clozeElement__line">
-            <span>Preview</span>
+            <span className="clozeElement__label">Preview</span>
             <div className="clozeElement__preview">{getPreview()}</div>
           </div>
           <div className="clozeElement__line">
-            <span>Sentence</span>
-            <input
+            <span className="clozeElement__label">Sentence</span>
+            <textarea
+              className="clozeElement__input"
               type="text"
               ref={inputRef}
               value={text}
               onChange={handleTextChange}
             />
             <button
-              className="clozeElement__btnUnderline"
+              className="clozeElement__btnUnderline clozeElement__btnSkin"
               onClick={handleUnderline}
             >
               Underline
             </button>
           </div>
           <div className="clozeElement__line__image">
-            <span>Add Image (Optional): </span>
+            <span className="clozeElement__label">Media: </span>
             <input
+              className="clozeElement__imagePicker"
               type="file"
               value={image}
               onChange={(e) => setImage(e.target.value)}
@@ -166,7 +196,7 @@ const ClozeElement = () => {
           </div>
           <div className="clozeElement__options">
             <button
-              className="clozeElement__options__addOption"
+              className="clozeElement__options__btnAddOption"
               onClick={handleAddOption}
             >
               Add Option

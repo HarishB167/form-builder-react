@@ -2,10 +2,12 @@
   color: red;
   font-size: 1.5rem;
   border: 2px solid orange;
+  padding: 10px;
 }
 
 .formBuilder__content {
   display: flex;
+  background-color: #e0e4f4;
 }
 
 .formBuilder__actions {
@@ -16,6 +18,25 @@
   width: 20%;
 }
 
+.formBuilder__quesRow {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.formBuilder__btnRemove {
+  padding: 0.5rem 1rem;
+  font-size: 2rem;
+  background-color: rgb(223, 209, 209);
+  color: gray;
+  height: fit-content;
+  border: none;
+}
+.formBuilder__btnRemove:hover {
+  opacity: 80%;
+}
+
 .formBuilder__actions button {
   background: #e68a19;
   background-image: -webkit-linear-gradient(top, #e68a19, #db550d);
@@ -23,14 +44,14 @@
   background-image: -ms-linear-gradient(top, #e68a19, #db550d);
   background-image: -o-linear-gradient(top, #e68a19, #db550d);
   background-image: linear-gradient(to bottom, #e68a19, #db550d);
-  -webkit-border-radius: 9;
-  -moz-border-radius: 9;
-  border-radius: 9px;
+  border-radius: 5px;
   font-family: Arial;
   color: #ffffff;
   font-size: 20px;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
+  outline: none;
+  border: none;
 }
 
 .formBuilder__actions button:hover {
@@ -43,6 +64,11 @@
   text-decoration: none;
 }
 
-.formBuilder__itemsList {
+.formBuilder__list {
   width: 60%;
+}
+
+.formBuilder__listTitle {
+  background-color: yellow;
+  margin-top: 10px;
 }

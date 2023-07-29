@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import router from "./routing/routes";
-
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./normalize.css";
+import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
