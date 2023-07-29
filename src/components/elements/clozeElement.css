@@ -8,20 +8,6 @@
   filter: drop-shadow(1px 3px 2px rgba(0, 0, 0, 0.5));
 }
 
-.clozeElement__btnSkin {
-  border: 2px solid lightgray;
-  border-radius: 5px;
-  background: white;
-}
-
-.clozeElement__btnCollapse {
-  width: 2rem;
-  height: 2rem;
-  border: 2px solid lightgray;
-  border-radius: 5px;
-  background: white;
-}
-
 .clozeElement__headingLine {
   display: flex;
   justify-content: space-between;
@@ -38,15 +24,17 @@
   row-gap: 0.5rem;
 }
 
+.clozeElement__line__image {
+  padding: 0 1rem;
+}
+
 .clozeElement__label {
   margin: 0 1rem;
 }
 
 .clozeElement__preview,
 .clozeElement__input,
-.clozeElement__imagePicker::file-selector-button,
-.clozeElement__options__btnAddOption,
-.clozeElement__option input {
+.clozeElement__imagePicker::file-selector-button {
   border: 2px solid lightgray;
   height: 2rem;
   border-radius: 5px;
@@ -59,63 +47,10 @@
   min-height: 2rem;
 }
 
-.clozeElement__btnUnderline {
-  width: fit-content;
-  padding: 0.4rem 0.7rem;
-}
-
-.clozeElement__btnUnderline:hover {
-  opacity: 75%;
-}
-
 .clozeElement__options {
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
-}
-
-.clozeElement__options__btnAddOption {
-  width: fit-content;
-}
-
-.clozeElement__option {
-  display: flex;
-  column-gap: 10px;
-}
-
-.clozeElement_optionActions {
-  display: grid;
-  grid-template-columns: 30px 30px 30px;
-  grid-template-rows: 30px;
-  column-gap: 0.5rem;
-}
-
-.clozeElement_optionActions button {
-  border: none;
-  color: gray;
-  font-size: 1.3rem;
-  font-weight: bold;
-  padding: 0.1rem 0.5rem;
-  background-color: white;
-  text-align: center;
-}
-
-.clozeElement_optionActions button:hover {
-  background-color: lightgray;
-}
-
-.clozeElement__btnMoveDown {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.clozeElement__btnMoveUp {
-  grid-column: 2;
-  grid-row: 1;
-}
-.clozeElement__btnRemove {
-  grid-column: 3;
-  grid-row: 1;
 }
 
 .clozeElement_underline {

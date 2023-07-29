@@ -1,0 +1,10 @@
+.btn {
+  width: fit-content;
+  height: 2rem;
+  min-width: 2rem;
+  border: 2px solid lightgray;
+  border-radius: 5px;
+  background: white;
+  cursor: pointer;
+  padding: 0.3rem 0.7rem;
+}

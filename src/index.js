@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import router from "./routing/routes";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./normalize.css";
 import "./index.css";
 

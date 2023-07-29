@@ -1,62 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
+import Button from "./common/button";
+import Option from "./common/option";
+import ImagePicker from "./common/imagePicker";
 import "./clozeElement.css";
-
-const Option = ({
-  data,
-  optionNo,
-  handleOptionChange,
-  handleRemoveOption,
-  handleOrderChange,
-  isFirst,
-  isLast,
-}) => {
-  const handleChange = (optionNo, e) => {
-    if (handleOptionChange) handleOptionChange(optionNo, e);
-  };
-
-  const handleMoveUp = () => {
-    handleOrderChange("up", optionNo);
-  };
-
-  const handleMoveDown = () => {
-    handleOrderChange("down", optionNo);
-  };
-
-  return (
-    <div className="clozeElement__option">
-      <input
-        type="text"
-        disabled={data.startIdx !== null}
-        value={data.text}
-        placeholder={`Option ${optionNo}`}
-        onChange={(e) => handleChange(optionNo, e)}
-      />
-      <div className="clozeElement_optionActions">
-        {!isLast && (
-          <button
-            className="clozeElement__btnMoveDown"
-            onClick={handleMoveDown}
-          >
-            &#8681;
-          </button>
-        )}
-        {!isFirst && (
-          <button className="clozeElement__btnMoveUp" onClick={handleMoveUp}>
-            &#8679;
-          </button>
-        )}
-        {data.startIdx === null && (
-          <button
-            className="clozeElement__btnRemove"
-            onClick={() => handleRemoveOption(optionNo)}
-          >
-            x
-          </button>
-        )}
-      </div>
-    </div>
-  );
-};
 
 const ClozeElement = () => {
   const [text, setText] = useState("");
@@ -148,7 +94,6 @@ const ClozeElement = () => {
         </span>
       );
     }
-
     return previewTxt;
   };
 
@@ -156,12 +101,10 @@ const ClozeElement = () => {
     <div className="clozeElement">
       <div className="clozeElement__headingLine">
         <div className="clozeElement__heading">Cloze Element</div>
-        <button
-          className="clozeElement__btnCollapse"
+        <Button
           onClick={() => setIsCollapsed(!isCollapsed)}
-        >
-          {isCollapsed ? "+" : "-"}
-        </button>
+          label={isCollapsed ? "+" : "-"}
+        />
       </div>
       {!isCollapsed && (
         <>
@@ -178,29 +121,17 @@ const ClozeElement = () => {
               value={text}
               onChange={handleTextChange}
             />
-            <button
-              className="clozeElement__btnUnderline clozeElement__btnSkin"
-              onClick={handleUnderline}
-            >
-              Underline
-            </button>
+            <Button onClick={handleUnderline} label="Underline" />
           </div>
           <div className="clozeElement__line__image">
-            <span className="clozeElement__label">Media: </span>
-            <input
-              className="clozeElement__imagePicker"
-              type="file"
-              value={image}
+            <ImagePicker
+              label="Media: "
+              image={image}
               onChange={(e) => setImage(e.target.value)}
             />
           </div>
           <div className="clozeElement__options">
-            <button
-              className="clozeElement__options__btnAddOption"
-              onClick={handleAddOption}
-            >
-              Add Option
-            </button>
+            <Button onClick={handleAddOption} label="Add Option" />
             {options.map((item, idx) => (
               <Option
                 key={idx}

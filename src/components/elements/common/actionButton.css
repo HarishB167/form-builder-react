@@ -1,0 +1,14 @@
+.btn-action {
+  border: none;
+  color: gray;
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding: 0.1rem 0.5rem;
+  background-color: white;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-action:hover {
+  background-color: lightgray;
+}
