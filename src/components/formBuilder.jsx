@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, cloneElement } from "react";
 import CategorizeElement from "./elements/categorizeElement";
 import ClozeElement from "./elements/clozeElement";
 import ComprehensionElement from "./elements/comprehensionElement";
@@ -7,49 +7,44 @@ import "./formBuilder.css";
 const FormBuilder = () => {
   const [questions, setQuestions] = useState([]);
 
-  const handleRemoveItem = (idx) => {
-    console.log("idx :>> ", idx);
-    const q = [...questions];
-    console.log("q before :>> ", q);
-    q.splice(idx, 1);
-    console.log("q :>> ", q);
-    setQuestions(q);
+  const handleRemoveItem = (itemId) => {
+    setQuestions((prevQuestions) => {
+      const q = [...prevQuestions];
+      const idx = q.findIndex((item) => item.id == itemId);
+      q.splice(idx, 1);
+      return q;
+    });
   };
 
-  const addQuestion = (questionItem, idx) => {
+  const addQuestion = (questionItem) => {
+    const id = new Date().getUTCMilliseconds();
     const elem = (
-      <div className="formBuilder__quesRow" key={idx}>
+      <div className="formBuilder__quesRow">
         {questionItem}
         <button
           className="formBuilder__btnRemove"
-          onClick={() => handleRemoveItem(idx)}
+          onClick={() => handleRemoveItem(id)}
         >
           x
         </button>
       </div>
     );
-    setQuestions([...questions, elem]);
+    setQuestions([...questions, { element: elem, id }]);
   };
 
   const handleAddCategorizingQuestion = () => {
     console.log("Adding categorizing question");
-    addQuestion(
-      <CategorizeElement key={questions.length} />,
-      questions.length - 1
-    );
+    addQuestion(<CategorizeElement />);
   };
 
   const handleAddClozeQuestion = () => {
     console.log("Adding cloze question");
-    addQuestion(<ClozeElement key={questions.length} />, questions.length - 1);
+    addQuestion(<ClozeElement />);
   };
 
   const handleAddComprehensionQuestion = () => {
     console.log("Adding comprehension question");
-    addQuestion(
-      <ComprehensionElement key={questions.length} />,
-      questions.length - 1
-    );
+    addQuestion(<ComprehensionElement />);
   };
 
   return (
@@ -67,7 +62,11 @@ const FormBuilder = () => {
         </div>
         <div className="formBuilder__list">
           <div className="formBuilder__listTitle">Displaying Items</div>
-          <div className="formBuilder__listItems">{questions}</div>
+          <div className="formBuilder__listItems">
+            {questions.map((item, idx) =>
+              cloneElement(item.element, { key: idx, collapsed: true })
+            )}
+          </div>
         </div>
       </div>
     </div>

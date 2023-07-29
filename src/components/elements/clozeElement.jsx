@@ -10,7 +10,7 @@ const ClozeElement = () => {
   const [image, setImage] = useState("");
   const [options, setOptions] = useState([]);
   const [maskingRanges, setMaskingRanges] = useState([]);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const inputRef = useRef(null);
 

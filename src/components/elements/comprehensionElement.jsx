@@ -10,7 +10,7 @@ const ComprehensionElement = () => {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
   const [questions, setQuestions] = useState([]);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const handleAddQuestion = (question) => {
     setQuestions([...questions, question]);

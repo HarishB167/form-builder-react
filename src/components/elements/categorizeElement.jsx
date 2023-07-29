@@ -7,7 +7,7 @@ import "./categorizeElement.css";
 
 const CategorizeElement = () => {
   const [image, setImage] = useState("");
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [description, setDescription] = useState("");
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
