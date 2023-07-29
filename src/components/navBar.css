@@ -1,0 +1,19 @@
+.navBar {
+  display: flex;
+  padding: 1rem 2rem;
+  background-color: dodgerblue;
+  color: white;
+  column-gap: 0.5rem;
+  align-items: center;
+}
+
+.navBar__label {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.navBar_link {
+  color: white;
+  text-decoration: none;
+}
