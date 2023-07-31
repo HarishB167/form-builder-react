@@ -8,16 +8,16 @@ import "./formBuilder.css";
 const FormBuilder = () => {
   const [questions, setQuestions] = useState([]);
   const [questionData, setQuestionData] = useState([]);
+  const elementTypes = {
+    categorize: <CategorizeElement />,
+    cloze: <ClozeElement />,
+    comprehension: <ComprehensionElement />,
+  };
 
   const handleQuestionDataChange = (id, data) => {
-    console.log("In handleQuestionDataChange");
-    console.log("data :>> ", data);
-    setQuestionData((prevData) => {
-      const dt = [...questionData];
-      const item = dt.find((item) => item.id === id);
-      if (item) item.data = data;
-      return dt;
-    });
+    const dt = [...questionData];
+    dt[id] = data;
+    setQuestionData(dt);
   };
 
   const handleRemoveItem = (itemId) => {
@@ -29,11 +29,23 @@ const FormBuilder = () => {
     });
   };
 
+  const handleRemoveItemNew = (index) => {
+    setQuestionData((prevQuestions) => {
+      const q = [...prevQuestions];
+      const idx = q.findIndex((item) => item.id === index);
+      q.splice(idx, 1);
+      return q;
+    });
+  };
+
   const addQuestion = (questionItem) => {
     const id = new Date().getTime();
     const elem = (
       <div className="formBuilder__quesRow">
-        {cloneElement(questionItem, { id, handleQuestionDataChange })}
+        {cloneElement(questionItem, {
+          id,
+          handleQuestionDataChange: (data) => console.log("dfdfdf"),
+        })}
         <button
           className="formBuilder__btnRemove"
           onClick={() => handleRemoveItem(id)}
@@ -43,22 +55,40 @@ const FormBuilder = () => {
       </div>
     );
     setQuestions([...questions, { element: elem, id }]);
-    setQuestionData([...questionData, { id, data: [] }]);
+    // setQuestionData({...questionData, { id, data: [] }});
+  };
+
+  const addQuestion2 = (type) => {
+    setQuestionData([...questionData, { questionType: type }]);
   };
 
   const handleAddCategorizingQuestion = () => {
     console.log("Adding categorizing question");
-    addQuestion(<CategorizeElement />);
+    // addQuestion(<CategorizeElement />);
+    addQuestion2("categorize");
   };
 
   const handleAddClozeQuestion = () => {
     console.log("Adding cloze question");
-    addQuestion(<ClozeElement />);
+    // addQuestion(<ClozeElement />);
+    addQuestion2("cloze");
   };
 
   const handleAddComprehensionQuestion = () => {
     console.log("Adding comprehension question");
-    addQuestion(<ComprehensionElement />);
+    // addQuestion(<ComprehensionElement />);
+    addQuestion2("comprehension");
+  };
+
+  const RenderQuestionElement = ({ index }) => {
+    const item = questionData[index];
+    console.log("questionData :>> ", questionData);
+    if (!item) return <>s</>;
+    console.log("item['questionType'] :>> ", item["questionType"]);
+    const Component = elementTypes[item["questionType"]];
+    console.log("Component :>> ", Component);
+    if (!Component) return <>d</>;
+    return <>{cloneElement(Component, { handleQuestionDataChange })}</>;
   };
 
   return (
@@ -80,6 +110,42 @@ const FormBuilder = () => {
             {questions.map((item, idx) =>
               cloneElement(item.element, { key: idx })
             )}
+          </div>
+          <div className="formBuilder__listItems">
+            {questionData.map((item, idx) => (
+              <div className="formBuilder__quesRow" key={idx}>
+                {item.questionType === "categorize" && (
+                  <CategorizeElement
+                    data={item}
+                    handleQuestionDataChange={(data) =>
+                      handleQuestionDataChange(idx, data)
+                    }
+                  />
+                )}
+                {item.questionType === "cloze" && (
+                  <ClozeElement
+                    data={item}
+                    handleQuestionDataChange={(data) =>
+                      handleQuestionDataChange(idx, data)
+                    }
+                  />
+                )}
+                {item.questionType === "comprehension" && (
+                  <ComprehensionElement
+                    data={item}
+                    handleQuestionDataChange={(data) =>
+                      handleQuestionDataChange(idx, data)
+                    }
+                  />
+                )}
+                <button
+                  className="formBuilder__btnRemove"
+                  onClick={() => handleRemoveItemNew(idx)}
+                >
+                  x
+                </button>
+              </div>
+            ))}
           </div>
         </div>
         <div className="formBuilder_sideBarRight">

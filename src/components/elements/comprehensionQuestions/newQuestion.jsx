@@ -37,6 +37,16 @@ const NewQuestion = ({ handleAddQuestion }) => {
     maxChars: 100,
   });
 
+  const resetQuestionForm = () => {
+    setText("");
+    setQuestionType("MCQ");
+    setOptions([{ text: "", isCorrect: false }]);
+    setTextConstraints({
+      minChars: 0,
+      maxChars: 100,
+    });
+  };
+
   const handleQuestionTypeChange = (e) => {
     setQuestionType(e.target.value);
   };
@@ -57,6 +67,24 @@ const NewQuestion = ({ handleAddQuestion }) => {
     setOptions(updatedOptions);
   };
 
+  const validate = (question) => {
+    if (text.length === 0) {
+      alert("Please fill question before saving");
+      return false;
+    }
+
+    if (questionType === "MCQ") {
+      if (question.options.length < 2) alert("Use more than 1 options");
+      else if (question.correctOptions.length === 0)
+        alert("Make atleast on correct option.");
+      else if (question.options.some((item) => item.length === 0))
+        alert("One or more options' is/are empty.");
+      else return true;
+    } else if (questionType === "Text") return true;
+
+    return false;
+  };
+
   const handleCorrectOptionChange = (e) => {
     const idx = parseInt(e.target.getAttribute("data-index"));
     const opts = [...options];
@@ -70,29 +98,20 @@ const NewQuestion = ({ handleAddQuestion }) => {
       text: text,
     };
 
-    if (text.length === 0) {
-      alert("Please fill question before saving");
-      return;
-    }
-
     if (questionType === "MCQ") {
       question.options = options.map((item) => item.text);
       question.correctOptions = options.reduce((pV, cV, idx) => {
         if (cV.isCorrect) pV.push(idx);
         return pV;
       }, []);
-
-      if (question.options.length < 2) alert("Use more than 1 options");
-      else if (question.correctOptions.length === 0)
-        alert("Make atleast on correct option.");
-      else if (question.options.some((item) => item.length === 0))
-        alert("One or more options' is/are empty.");
-      else handleAddQuestion(question);
     } else if (questionType === "Text") {
       question.textConstraints = textConstraints;
-      handleAddQuestion(question);
     }
 
+    if (!validate(question)) return;
+
+    handleAddQuestion(question);
+    resetQuestionForm();
     console.log("question :>> ", question);
   };
 

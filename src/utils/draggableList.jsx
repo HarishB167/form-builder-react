@@ -22,6 +22,8 @@ const DraggableList = ({
     return style;
   };
 
+  console.log("items :>> ", items);
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <StrictModeDroppable droppableId={droppableId}>

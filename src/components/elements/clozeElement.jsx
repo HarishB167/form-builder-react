@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import DraggableList from "../../utils/draggableList";
 import ActionButton from "./common/actionButton";
 
-const ClozeElement = ({ id, handleQuestionDataChange }) => {
+const ClozeElement = ({ handleQuestionDataChange }) => {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
   const [options, setOptions] = useState([]);
@@ -18,10 +18,10 @@ const ClozeElement = ({ id, handleQuestionDataChange }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    handleQuestionDataChange(id, {
-      type: "cloze",
-      text,
+    handleQuestionDataChange({
+      questionType: "cloze",
       image,
+      text,
       options,
       maskingRanges,
     });

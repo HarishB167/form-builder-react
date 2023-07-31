@@ -1,16 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NewQuestion from "./comprehensionQuestions/newQuestion";
 import Question from "./comprehensionQuestions/question";
 import ElementContainer from "./common/elementContainer";
 import Button from "./common/button";
-import "./comprehensionElement.css";
 import ImagePicker from "./common/imagePicker";
+import "./comprehensionElement.css";
 
-const ComprehensionElement = () => {
+const ComprehensionElement = ({ handleQuestionDataChange }) => {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
   const [questions, setQuestions] = useState([]);
   const [isCollapsed, setIsCollapsed] = useState(true);
+
+  useEffect(() => {
+    handleQuestionDataChange({
+      questionType: "comprehension",
+      image: image,
+      text,
+      questions,
+    });
+  }, [image, text, questions]);
 
   const handleAddQuestion = (question) => {
     setQuestions([...questions, question]);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ElementContainer from "./common/elementContainer";
 import ImagePicker from "./common/imagePicker";
 import Button from "./common/button";
@@ -6,78 +6,105 @@ import ActionButton from "./common/actionButton";
 import DraggableList from "../../utils/draggableList";
 import "./categorizeElement.css";
 
-const CategorizeElement = () => {
-  const [image, setImage] = useState("");
+const CategorizeElement = ({ data, handleQuestionDataChange }) => {
+  const isDataValid = () => {
+    if (
+      data.hasOwnProperty("questionType") &&
+      data.hasOwnProperty("image") &&
+      data.hasOwnProperty("description") &&
+      data.hasOwnProperty("categories") &&
+      data.hasOwnProperty("items")
+    )
+      return true;
+    return false;
+  };
+
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const [description, setDescription] = useState("");
-  const [categories, setCategories] = useState([]);
-  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    handleQuestionDataChange({
+      questionType: "categorize",
+      image: "",
+      description: "",
+      categories: [],
+      items: [],
+    });
+  }, []);
 
   const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
+    handleQuestionDataChange({ ...data, description: e.target.value });
+  };
+
+  const handleImagePicked = (e) => {
+    handleQuestionDataChange({ ...data, image: e.target.value });
   };
 
   const handleCategoryAdd = () => {
-    setCategories([...categories, ""]);
+    handleQuestionDataChange({ ...data, categories: [...data.categories, ""] });
   };
 
   const handleCategoryDelete = (idx) => {
-    const ctg = [...categories];
+    const ctg = [...data.categories];
     ctg.splice(idx, 1);
-    setCategories([...ctg]);
+    handleQuestionDataChange({ ...data, categories: [...ctg] });
   };
 
   const handleChangeCategory = (e) => {
     const dataIdValue = e.target.getAttribute("data-id");
-    const ctg = categories;
-    categories[parseInt(dataIdValue)] = e.target.value;
-    setCategories([...ctg]);
+    const ctg = data.categories;
+    ctg[parseInt(dataIdValue)] = e.target.value;
+    handleQuestionDataChange({ ...data, categories: [...ctg] });
   };
 
   const handleItemAdd = () => {
-    setItems([...items, { name: "", category: "" }]);
+    const newItems = [...data.items, { name: "", category: "" }];
+    handleQuestionDataChange({ ...data, items: newItems });
   };
 
   const handleItemDelete = (idx) => {
-    const newItems = [...items];
+    const newItems = [...data.items];
     newItems.splice(idx, 1);
-    setItems([...newItems]);
+    handleQuestionDataChange({ ...data, items: [...newItems] });
   };
 
   const handleItemChange = (e) => {
     const dataIdValue = e.target.getAttribute("data-id");
-    const its = [...items];
+    const its = [...data.items];
     its[parseInt(dataIdValue)].name = e.target.value;
-    setItems([...its]);
+    handleQuestionDataChange({ ...data, items: [...its] });
   };
 
   const handleItemCategoryChange = (idx, e) => {
-    const newItems = [...items];
+    const newItems = [...data.items];
     newItems[idx].category = e.target.value;
-    setItems([...newItems]);
+    handleQuestionDataChange({ ...data, items: [...newItems] });
   };
 
   const getCategories = () => {
-    return categories.filter((item) => item.length > 0);
+    return data.categories.filter((item) => item.length > 0);
   };
 
   const handleOnCategoryDragEnd = (result) => {
     if (!result.destination) return;
 
-    const items = [...categories];
+    const items = [...data.categories];
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    setCategories(items);
+    handleQuestionDataChange({ ...data, categories: items });
   };
 
   const handleOnItemDragEnd = (result) => {
     if (!result.destination) return;
 
-    const iList = [...items];
+    const iList = [...data.items];
     const [reorderedItem] = iList.splice(result.source.index, 1);
     iList.splice(result.destination.index, 0, reorderedItem);
-    setItems(iList);
+    handleQuestionDataChange({ ...data, items: iList });
   };
+
+  if (!isDataValid()) {
+    return null;
+  }
 
   return (
     <ElementContainer>
@@ -97,14 +124,14 @@ const CategorizeElement = () => {
               type="text"
               placeholder="Description Text"
               onChange={handleDescriptionChange}
-              value={description}
+              value={data.description}
             />
           </div>
           <div className="categorizeElement__image">
             <ImagePicker
               label="Media: "
-              image={image}
-              onChange={(e) => setImage(e.target.value)}
+              image={data.image}
+              onChange={handleImagePicked}
             />
           </div>
           <span className="categorizeElement_subHeading">
@@ -114,7 +141,7 @@ const CategorizeElement = () => {
             className="categorizeElement__categories"
             itemClassName="categorizeElement__category"
             droppableId="categories"
-            items={categories}
+            items={data.categories}
             handleOnDragEnd={handleOnCategoryDragEnd}
             renderListItemChild={(item, index) => (
               <>
@@ -139,14 +166,14 @@ const CategorizeElement = () => {
             className="categorizeElement__items"
             itemClassName="categorizeElement__item"
             droppableId="items"
-            items={items}
+            items={data.items}
             handleOnDragEnd={handleOnItemDragEnd}
             renderListItemChild={(item, index) => (
               <>
                 <input
                   data-id={index}
                   type="text"
-                  value={items[index].name}
+                  value={data.items[index].name}
                   onChange={handleItemChange}
                   placeholder={`Item ${index + 1}`}
                 />
