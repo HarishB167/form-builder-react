@@ -26,35 +26,34 @@ const ComprehensionElement = () => {
             label={isCollapsed ? "+" : "-"}
           />
         </div>
-        {!isCollapsed && (
-          <>
-            <div className="comprehensionElement__topLine">
-              <span>Question</span>
-              <span>Comprehension</span>
-              <span>Points</span>
-            </div>
-            <div className="comprehensionElement__text">
-              <textarea
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-              ></textarea>
-            </div>
 
-            <div className="comprehensionElement__image">
-              <ImagePicker
-                label="Media: "
-                image={image}
-                onChange={(e) => setImage(e.target.value)}
-              />
-            </div>
-            <NewQuestion handleAddQuestion={handleAddQuestion} />
-            <div className="comprehensionElement__questions">
-              {questions.map((item, idx) => (
-                <Question data={item} questionNo={idx + 1} key={idx} />
-              ))}
-            </div>
-          </>
-        )}
+        <div className={isCollapsed ? "elementHidden" : "elementContent"}>
+          <div className="comprehensionElement__topLine">
+            <span>Question</span>
+            <span>Comprehension</span>
+            <span>Points</span>
+          </div>
+          <div className="comprehensionElement__text">
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            ></textarea>
+          </div>
+
+          <div className="comprehensionElement__image">
+            <ImagePicker
+              label="Media: "
+              image={image}
+              onChange={(e) => setImage(e.target.value)}
+            />
+          </div>
+          <NewQuestion handleAddQuestion={handleAddQuestion} />
+          <div className="comprehensionElement__questions">
+            {questions.map((item, idx) => (
+              <Question data={item} questionNo={idx + 1} key={idx} />
+            ))}
+          </div>
+        </div>
       </div>
     </ElementContainer>
   );
