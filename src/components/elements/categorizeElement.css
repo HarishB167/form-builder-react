@@ -46,9 +46,11 @@
 
 .categorizeElement__categories,
 .categorizeElement__items {
+  position: relative;
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
+  width: fit-content;
 }
 
 .categorizeElement__category,
@@ -56,4 +58,9 @@
   display: flex;
   width: 100%;
   column-gap: 1rem;
+  align-items: center;
+}
+
+.categorizeElement__grip {
+  cursor: pointer;
 }

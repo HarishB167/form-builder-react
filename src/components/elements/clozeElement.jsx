@@ -4,8 +4,9 @@ import Button from "./common/button";
 import Option from "./common/option";
 import ImagePicker from "./common/imagePicker";
 import "./clozeElement.css";
+import { useEffect } from "react";
 
-const ClozeElement = () => {
+const ClozeElement = ({ id, handleQuestionDataChange }) => {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
   const [options, setOptions] = useState([]);
@@ -13,6 +14,16 @@ const ClozeElement = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    handleQuestionDataChange(id, {
+      type: "cloze",
+      text,
+      image,
+      options,
+      maskingRanges,
+    });
+  }, [text, image, options, maskingRanges]);
 
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -49,9 +60,9 @@ const ClozeElement = () => {
   const handleOptionOrderChange = (direction, optionNo) => {
     const idx = optionNo - 1;
     const opts = [...options];
-    if (direction == "up")
+    if (direction === "up")
       [opts[idx], opts[idx - 1]] = [opts[idx - 1], opts[idx]];
-    else if (direction == "down")
+    else if (direction === "down")
       [opts[idx], opts[idx + 1]] = [opts[idx + 1], opts[idx]];
 
     setOptions([...opts]);

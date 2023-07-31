@@ -1,18 +1,22 @@
+import { NavLink } from "react-router-dom";
 import "./navBar.css";
 
 const NavBar = () => {
+  const getNavLinkClass = ({ isActive }) =>
+    isActive ? "active navBar_link" : "navBar_link";
+
   return (
     <div className="navBar">
       <div className="navBar__label">Form Builder</div>
-      <a href="/" className="navBar_link">
+      <NavLink to="/" className={getNavLinkClass}>
         Home
-      </a>
-      <a href="/builder" className="navBar_link">
+      </NavLink>
+      <NavLink to="/builder" className={getNavLinkClass}>
         Form Builder
-      </a>
-      <a href="/fill" className="navBar_link">
-        Form Fill
-      </a>
+      </NavLink>
+      <NavLink to="/fill" className={getNavLinkClass}>
+        Fill
+      </NavLink>
     </div>
   );
 };

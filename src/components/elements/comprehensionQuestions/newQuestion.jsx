@@ -75,7 +75,7 @@ const NewQuestion = ({ handleAddQuestion }) => {
       return;
     }
 
-    if (questionType == "MCQ") {
+    if (questionType === "MCQ") {
       question.options = options.map((item) => item.text);
       question.correctOptions = options.reduce((pV, cV, idx) => {
         if (cV.isCorrect) pV.push(idx);
@@ -88,7 +88,7 @@ const NewQuestion = ({ handleAddQuestion }) => {
       else if (question.options.some((item) => item.length === 0))
         alert("One or more options' is/are empty.");
       else handleAddQuestion(question);
-    } else if (questionType == "Text") {
+    } else if (questionType === "Text") {
       question.textConstraints = textConstraints;
       handleAddQuestion(question);
     }
@@ -117,7 +117,7 @@ const NewQuestion = ({ handleAddQuestion }) => {
           value={text}
         />
       </div>
-      {questionType == "MCQ" && (
+      {questionType === "MCQ" && (
         <div className="newQuestion__options">
           <Button onClick={handleAddOption} label="Add Option" />
           {options.map((option, index) => (
@@ -132,7 +132,7 @@ const NewQuestion = ({ handleAddQuestion }) => {
           ))}
         </div>
       )}
-      {questionType == "Text" && (
+      {questionType === "Text" && (
         <div className="newQuestion__typeText">
           <label htmlFor="minChars">Min Chars: </label>
           <input

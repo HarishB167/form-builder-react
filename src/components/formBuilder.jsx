@@ -7,21 +7,33 @@ import "./formBuilder.css";
 
 const FormBuilder = () => {
   const [questions, setQuestions] = useState([]);
+  const [questionData, setQuestionData] = useState([]);
+
+  const handleQuestionDataChange = (id, data) => {
+    console.log("In handleQuestionDataChange");
+    console.log("data :>> ", data);
+    setQuestionData((prevData) => {
+      const dt = [...questionData];
+      const item = dt.find((item) => item.id === id);
+      if (item) item.data = data;
+      return dt;
+    });
+  };
 
   const handleRemoveItem = (itemId) => {
     setQuestions((prevQuestions) => {
       const q = [...prevQuestions];
-      const idx = q.findIndex((item) => item.id == itemId);
+      const idx = q.findIndex((item) => item.id === itemId);
       q.splice(idx, 1);
       return q;
     });
   };
 
   const addQuestion = (questionItem) => {
-    const id = new Date().getUTCMilliseconds();
+    const id = new Date().getTime();
     const elem = (
       <div className="formBuilder__quesRow">
-        {questionItem}
+        {cloneElement(questionItem, { id, handleQuestionDataChange })}
         <button
           className="formBuilder__btnRemove"
           onClick={() => handleRemoveItem(id)}
@@ -31,6 +43,7 @@ const FormBuilder = () => {
       </div>
     );
     setQuestions([...questions, { element: elem, id }]);
+    setQuestionData([...questionData, { id, data: [] }]);
   };
 
   const handleAddCategorizingQuestion = () => {
@@ -65,7 +78,7 @@ const FormBuilder = () => {
           <div className="formBuilder__listTitle">Create Form</div>
           <div className="formBuilder__listItems">
             {questions.map((item, idx) =>
-              cloneElement(item.element, { key: idx, collapsed: true })
+              cloneElement(item.element, { key: idx })
             )}
           </div>
         </div>
