@@ -41,9 +41,24 @@
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
+  width: fit-content;
 }
 
 .clozeElement_underline {
   text-decoration: underline;
   font-weight: bold;
+}
+
+.clozeElement__option input {
+  border: 2px solid lightgray;
+  height: 2rem;
+  border-radius: 5px;
+  padding: 0.1rem 0.5rem;
+  background-color: white;
+}
+
+.clozeElement__option {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
 }

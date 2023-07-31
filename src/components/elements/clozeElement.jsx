@@ -5,6 +5,8 @@ import Option from "./common/option";
 import ImagePicker from "./common/imagePicker";
 import "./clozeElement.css";
 import { useEffect } from "react";
+import DraggableList from "../../utils/draggableList";
+import ActionButton from "./common/actionButton";
 
 const ClozeElement = ({ id, handleQuestionDataChange }) => {
   const [text, setText] = useState("");
@@ -109,6 +111,15 @@ const ClozeElement = ({ id, handleQuestionDataChange }) => {
     return previewTxt;
   };
 
+  const handleOnOptionDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const iList = [...options];
+    const [reorderedItem] = iList.splice(result.source.index, 1);
+    iList.splice(result.destination.index, 0, reorderedItem);
+    setOptions(iList);
+  };
+
   return (
     <ElementContainer>
       <div className="clozeElement__headingLine">
@@ -118,47 +129,56 @@ const ClozeElement = ({ id, handleQuestionDataChange }) => {
           label={isCollapsed ? "+" : "-"}
         />
       </div>
-      {!isCollapsed && (
-        <>
-          <div className="clozeElement__line">
-            <span className="clozeElement__label">Preview</span>
-            <div className="clozeElement__preview">{getPreview()}</div>
-          </div>
-          <div className="clozeElement__line">
-            <span className="clozeElement__label">Sentence</span>
-            <textarea
-              className="clozeElement__input"
-              type="text"
-              ref={inputRef}
-              value={text}
-              onChange={handleTextChange}
-            />
-            <Button onClick={handleUnderline} label="Underline" />
-          </div>
-          <div className="clozeElement__line__image">
-            <ImagePicker
-              label="Media: "
-              image={image}
-              onChange={(e) => setImage(e.target.value)}
-            />
-          </div>
-          <div className="clozeElement__options">
-            <Button onClick={handleAddOption} label="Add Option" />
-            {options.map((item, idx) => (
-              <Option
-                key={idx}
-                data={item}
-                optionNo={idx + 1}
-                handleOptionChange={handleOptionChange}
-                handleRemoveOption={handleOptionRemove}
-                handleOrderChange={handleOptionOrderChange}
-                isLast={options.length === idx + 1}
-                isFirst={idx === 0}
+      <div className={isCollapsed ? "elementHidden" : "elementContent"}>
+        <div className="clozeElement__line">
+          <span className="clozeElement__label">Preview</span>
+          <div className="clozeElement__preview">{getPreview()}</div>
+        </div>
+        <div className="clozeElement__line">
+          <span className="clozeElement__label">Sentence</span>
+          <textarea
+            className="clozeElement__input"
+            type="text"
+            ref={inputRef}
+            value={text}
+            onChange={handleTextChange}
+          />
+          <Button onClick={handleUnderline} label="Underline" />
+        </div>
+        <div className="clozeElement__line__image">
+          <ImagePicker
+            label="Media: "
+            image={image}
+            onChange={(e) => setImage(e.target.value)}
+          />
+        </div>
+        <Button onClick={handleAddOption} label="Add Option" />
+        <DraggableList
+          className="clozeElement__options"
+          itemClassName="clozeElement__option"
+          droppableId="options"
+          items={options}
+          handleOnDragEnd={handleOnOptionDragEnd}
+          renderListItemChild={(item, index) => (
+            <>
+              <input
+                type="text"
+                disabled={item.startIdx !== null}
+                value={item.text}
+                placeholder={`Option ${index + 1}`}
+                onChange={(e) => handleOptionChange(index + 1, e)}
               />
-            ))}
-          </div>
-        </>
-      )}
+              {item.startIdx === null && (
+                <ActionButton
+                  className="clozeElement__option__btnRemove"
+                  onClick={() => handleOptionRemove(index + 1)}
+                  label="x"
+                />
+              )}
+            </>
+          )}
+        />
+      </div>
     </ElementContainer>
   );
 };

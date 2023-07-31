@@ -89,95 +89,87 @@ const CategorizeElement = () => {
             label={isCollapsed ? "+" : "-"}
           />
         </div>
-        <div
-          className={
-            isCollapsed ? "elementHidden" : "categorizeElement__description"
-          }
-        >
-          <input
-            name="description"
-            type="text"
-            placeholder="Description Text"
-            onChange={handleDescriptionChange}
-            value={description}
-          />
-        </div>
-        <div
-          className={isCollapsed ? "elementHidden" : "categorizeElement__image"}
-        >
-          <ImagePicker
-            label="Media: "
-            image={image}
-            onChange={(e) => setImage(e.target.value)}
-          />
-        </div>
 
-        {!isCollapsed && (
-          <>
-            <span className="categorizeElement_subHeading">
-              Categories <Button label="+" onClick={handleCategoryAdd} />
-            </span>
-            <DraggableList
-              className="categorizeElement__categories"
-              itemClassName="categorizeElement__category"
-              droppableId="categories"
-              items={categories}
-              handleOnDragEnd={handleOnCategoryDragEnd}
-              renderListItemChild={(item, index) => (
-                <>
-                  <input
-                    data-id={index}
-                    value={item}
-                    onChange={handleChangeCategory}
-                    type="text"
-                    placeholder={`Category ${index + 1}`}
-                  />
-                  <ActionButton
-                    onClick={() => handleCategoryDelete(index)}
-                    label="x"
-                  />
-                </>
-              )}
+        <div className={isCollapsed ? "elementHidden" : "elementContent"}>
+          <div className="categorizeElement__description">
+            <input
+              name="description"
+              type="text"
+              placeholder="Description Text"
+              onChange={handleDescriptionChange}
+              value={description}
             />
-            <span className="categorizeElement_subHeading">
-              Items <Button onClick={handleItemAdd} label="+" />
-            </span>
-            <DraggableList
-              className="categorizeElement__items"
-              itemClassName="categorizeElement__item"
-              droppableId="items"
-              items={items}
-              handleOnDragEnd={handleOnItemDragEnd}
-              renderListItemChild={(item, index) => (
-                <>
-                  <input
-                    data-id={index}
-                    type="text"
-                    value={items[index].name}
-                    onChange={handleItemChange}
-                    placeholder={`Item ${index + 1}`}
-                  />
-                  <ActionButton
-                    onClick={() => handleItemDelete(index)}
-                    label="x"
-                  />
-                  <select
-                    className="categorizeElement__select"
-                    value={item.category}
-                    onChange={(e) => handleItemCategoryChange(index, e)}
-                  >
-                    <option>Choose Category</option>
-                    {getCategories().map((item, index) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                </>
-              )}
+          </div>
+          <div className="categorizeElement__image">
+            <ImagePicker
+              label="Media: "
+              image={image}
+              onChange={(e) => setImage(e.target.value)}
             />
-          </>
-        )}
+          </div>
+          <span className="categorizeElement_subHeading">
+            Categories <Button label="+" onClick={handleCategoryAdd} />
+          </span>
+          <DraggableList
+            className="categorizeElement__categories"
+            itemClassName="categorizeElement__category"
+            droppableId="categories"
+            items={categories}
+            handleOnDragEnd={handleOnCategoryDragEnd}
+            renderListItemChild={(item, index) => (
+              <>
+                <input
+                  data-id={index}
+                  value={item}
+                  onChange={handleChangeCategory}
+                  type="text"
+                  placeholder={`Category ${index + 1}`}
+                />
+                <ActionButton
+                  onClick={() => handleCategoryDelete(index)}
+                  label="x"
+                />
+              </>
+            )}
+          />
+          <span className="categorizeElement_subHeading">
+            Items <Button onClick={handleItemAdd} label="+" />
+          </span>
+          <DraggableList
+            className="categorizeElement__items"
+            itemClassName="categorizeElement__item"
+            droppableId="items"
+            items={items}
+            handleOnDragEnd={handleOnItemDragEnd}
+            renderListItemChild={(item, index) => (
+              <>
+                <input
+                  data-id={index}
+                  type="text"
+                  value={items[index].name}
+                  onChange={handleItemChange}
+                  placeholder={`Item ${index + 1}`}
+                />
+                <ActionButton
+                  onClick={() => handleItemDelete(index)}
+                  label="x"
+                />
+                <select
+                  className="categorizeElement__select"
+                  value={item.category}
+                  onChange={(e) => handleItemCategoryChange(index, e)}
+                >
+                  <option>Choose Category</option>
+                  {getCategories().map((item, index) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
+          />
+        </div>
       </div>
     </ElementContainer>
   );
