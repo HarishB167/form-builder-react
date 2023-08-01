@@ -8,27 +8,38 @@ import { useEffect } from "react";
 import DraggableList from "../../utils/draggableList";
 import ActionButton from "./common/actionButton";
 
-const ClozeElement = ({ handleQuestionDataChange }) => {
-  const [text, setText] = useState("");
-  const [image, setImage] = useState("");
-  const [options, setOptions] = useState([]);
-  const [maskingRanges, setMaskingRanges] = useState([]);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+const ClozeElement = ({ data, handleQuestionDataChange }) => {
+  const isDataValid = () => {
+    if (
+      data.hasOwnProperty("questionType") &&
+      data.hasOwnProperty("image") &&
+      data.hasOwnProperty("text") &&
+      data.hasOwnProperty("options") &&
+      data.hasOwnProperty("maskingRanges")
+    )
+      return true;
+    return false;
+  };
 
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const inputRef = useRef(null);
 
   useEffect(() => {
     handleQuestionDataChange({
       questionType: "cloze",
-      image,
-      text,
-      options,
-      maskingRanges,
+      image: "",
+      text: "",
+      options: [],
+      maskingRanges: [],
     });
-  }, [text, image, options, maskingRanges]);
+  }, []);
+
+  const handleImagePicked = (e) => {
+    handleQuestionDataChange({ ...data, image: e.target.value });
+  };
 
   const handleTextChange = (e) => {
-    setText(e.target.value);
+    handleQuestionDataChange({ ...data, text: e.target.value });
   };
 
   const handleUnderline = (e) => {
@@ -37,65 +48,67 @@ const ClozeElement = ({ handleQuestionDataChange }) => {
     const selectionEnd = input.selectionEnd;
     if (selectionStart === selectionEnd) return;
 
-    setMaskingRanges([...maskingRanges, [selectionStart, selectionEnd]]);
+    const newMaskingRanges = [
+      ...data.maskingRanges,
+      [selectionStart, selectionEnd],
+    ];
 
-    const newOption = text.substring(selectionStart, selectionEnd);
-    setOptions([...options, { text: newOption, startIdx: selectionStart }]);
+    const newOption = data.text.substring(selectionStart, selectionEnd);
+    const newOptions = [
+      ...data.options,
+      { text: newOption, startIdx: selectionStart },
+    ];
+    handleQuestionDataChange({
+      ...data,
+      options: newOptions,
+      maskingRanges: newMaskingRanges,
+    });
   };
 
   const handleAddOption = () => {
-    setOptions([...options, { text: "", startIdx: null }]);
+    const newOptions = [...data.options, { text: "", startIdx: null }];
+    handleQuestionDataChange({ ...data, options: newOptions });
   };
 
   const handleOptionRemove = (optionNo) => {
-    const opts = [...options];
+    const opts = [...data.options];
     opts.splice(optionNo - 1, 1);
-    setOptions(opts);
+    handleQuestionDataChange({ ...data, options: opts });
   };
 
   const handleOptionChange = (optionNo, e) => {
-    const opts = [...options];
+    const opts = [...data.options];
     opts[optionNo - 1].text = e.target.value;
-    setOptions(opts);
-  };
-
-  const handleOptionOrderChange = (direction, optionNo) => {
-    const idx = optionNo - 1;
-    const opts = [...options];
-    if (direction === "up")
-      [opts[idx], opts[idx - 1]] = [opts[idx - 1], opts[idx]];
-    else if (direction === "down")
-      [opts[idx], opts[idx + 1]] = [opts[idx + 1], opts[idx]];
-
-    setOptions([...opts]);
+    handleQuestionDataChange({ ...data, options: opts });
   };
 
   const handleRemoveMask = (maskIdx) => {
-    if (maskingRanges.length > 0) {
-      const idx = options.findIndex(
+    if (data.maskingRanges.length > 0) {
+      const idx = data.options.findIndex(
         (item) =>
-          maskingRanges[maskIdx] && item.startIdx === maskingRanges[maskIdx][0]
+          data.maskingRanges[maskIdx] &&
+          item.startIdx === data.maskingRanges[maskIdx][0]
       );
       handleOptionRemove(idx + 1);
     }
 
-    const masks = [...maskingRanges];
+    const masks = [...data.maskingRanges];
     masks.splice(maskIdx, 1);
-    setMaskingRanges([...masks]);
+    handleQuestionDataChange({ ...data, maskingRanges: masks });
   };
 
   const getPreview = () => {
     const previewTxt = [];
 
     const getMaskIndex = (index) => {
-      for (var i = 0; i < maskingRanges.length; i++) {
-        const range = maskingRanges[i];
+      for (var i = 0; i < data.maskingRanges.length; i++) {
+        const range = data.maskingRanges[i];
         if (index >= range[0] && index < range[1]) return i;
       }
       return -1;
     };
 
-    for (var i = 0; i < text.length; i++) {
+    for (var i = 0; i < data.text.length; i++) {
       const maskIdx = getMaskIndex(i);
       const className = maskIdx > -1 ? "clozeElement_underline" : "";
       previewTxt.push(
@@ -104,7 +117,7 @@ const ClozeElement = ({ handleQuestionDataChange }) => {
           key={i}
           onClick={() => (maskIdx > -1 ? handleRemoveMask(maskIdx) : {})}
         >
-          {text.charAt(i)}
+          {data.text.charAt(i)}
         </span>
       );
     }
@@ -114,11 +127,15 @@ const ClozeElement = ({ handleQuestionDataChange }) => {
   const handleOnOptionDragEnd = (result) => {
     if (!result.destination) return;
 
-    const iList = [...options];
+    const iList = [...data.options];
     const [reorderedItem] = iList.splice(result.source.index, 1);
     iList.splice(result.destination.index, 0, reorderedItem);
-    setOptions(iList);
+    handleQuestionDataChange({ ...data, options: iList });
   };
+
+  if (!isDataValid()) {
+    return null;
+  }
 
   return (
     <ElementContainer>
@@ -140,7 +157,7 @@ const ClozeElement = ({ handleQuestionDataChange }) => {
             className="clozeElement__input"
             type="text"
             ref={inputRef}
-            value={text}
+            value={data.text}
             onChange={handleTextChange}
           />
           <Button onClick={handleUnderline} label="Underline" />
@@ -148,8 +165,8 @@ const ClozeElement = ({ handleQuestionDataChange }) => {
         <div className="clozeElement__line__image">
           <ImagePicker
             label="Media: "
-            image={image}
-            onChange={(e) => setImage(e.target.value)}
+            image={data.image}
+            onChange={handleImagePicked}
           />
         </div>
         <Button onClick={handleAddOption} label="Add Option" />
@@ -157,7 +174,7 @@ const ClozeElement = ({ handleQuestionDataChange }) => {
           className="clozeElement__options"
           itemClassName="clozeElement__option"
           droppableId="options"
-          items={options}
+          items={data.options}
           handleOnDragEnd={handleOnOptionDragEnd}
           renderListItemChild={(item, index) => (
             <>
