@@ -16,8 +16,13 @@ const Question = ({ data, questionNo }) => {
         {data.type === "MCQ" && (
           <>
             {data.options.map((item, idx) => (
-              <div className="questionUnit_option">
-                <input type="checkbox" id={idx} />
+              <div className="questionUnit_option" key={idx}>
+                <input
+                  type="checkbox"
+                  id={idx}
+                  checked={data.correctOptions.some((item) => item === idx)}
+                  readOnly
+                />
                 <label htmlFor={idx}>{item}</label>
               </div>
             ))}

@@ -1,9 +1,9 @@
 .comprehension__questionUnit {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
-  padding: 10px;
-  margin: 10px 0;
+  border: 1px solid #d3d3d3;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
 }
 
 .questionUnit__topLine {
@@ -14,5 +14,10 @@
 .questionUnit__question {
   display: flex;
   flex-direction: column;
-  margin: 10px 0;
+  margin: 1rem 0 0.4rem;
+}
+
+.questionUnit_option {
+  display: flex;
+  column-gap: 1rem;
 }

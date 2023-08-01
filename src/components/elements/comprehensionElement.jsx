@@ -6,24 +6,46 @@ import Button from "./common/button";
 import ImagePicker from "./common/imagePicker";
 import "./comprehensionElement.css";
 
-const ComprehensionElement = ({ handleQuestionDataChange }) => {
-  const [text, setText] = useState("");
-  const [image, setImage] = useState("");
-  const [questions, setQuestions] = useState([]);
+const ComprehensionElement = ({ data, handleQuestionDataChange }) => {
+  const isDataValid = () => {
+    if (
+      data.hasOwnProperty("questionType") &&
+      data.hasOwnProperty("image") &&
+      data.hasOwnProperty("questions")
+    )
+      return true;
+    return false;
+  };
+
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
     handleQuestionDataChange({
       questionType: "comprehension",
-      image: image,
-      text,
-      questions,
+      image: "",
+      text: "",
+      questions: [],
     });
-  }, [image, text, questions]);
+  }, []);
+
+  const handleTextChange = (e) => {
+    handleQuestionDataChange({ ...data, text: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    handleQuestionDataChange({ ...data, image: e.target.value });
+  };
 
   const handleAddQuestion = (question) => {
-    setQuestions([...questions, question]);
+    handleQuestionDataChange({
+      ...data,
+      questions: [...data.questions, question],
+    });
   };
+
+  if (!isDataValid()) {
+    return null;
+  }
 
   return (
     <ElementContainer>
@@ -43,22 +65,19 @@ const ComprehensionElement = ({ handleQuestionDataChange }) => {
             <span>Points</span>
           </div>
           <div className="comprehensionElement__text">
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            ></textarea>
+            <textarea value={data.text} onChange={handleTextChange}></textarea>
           </div>
 
           <div className="comprehensionElement__image">
             <ImagePicker
               label="Media: "
-              image={image}
-              onChange={(e) => setImage(e.target.value)}
+              image={data.image}
+              onChange={handleImageChange}
             />
           </div>
           <NewQuestion handleAddQuestion={handleAddQuestion} />
           <div className="comprehensionElement__questions">
-            {questions.map((item, idx) => (
+            {data.questions.map((item, idx) => (
               <Question data={item} questionNo={idx + 1} key={idx} />
             ))}
           </div>
