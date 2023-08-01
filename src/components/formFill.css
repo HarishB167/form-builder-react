@@ -1,0 +1,16 @@
+.formFill {
+  display: flex;
+  flex-direction: column;
+  background: lightskyblue;
+  margin: 2rem 5rem;
+  padding: 1rem;
+}
+
+.formFill_loading {
+  align-items: center;
+  row-gap: 1rem;
+}
+
+.formFill_loadingIcon {
+  font-size: 2.5rem;
+}

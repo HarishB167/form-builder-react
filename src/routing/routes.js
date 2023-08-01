@@ -13,7 +13,7 @@ const router = createBrowserRouter([
       { path: "", element: <FormList /> },
       { path: "fill", element: <FormFill /> },
       { path: "builder", element: <FormBuilder /> },
-      { path: "sampleText", element: <TestDrag /> },
+      { path: "formFill/:id", element: <FormFill /> },
     ],
     errorElement: <>Error occured</>,
   },

@@ -1,0 +1,36 @@
+.clozeFillElement {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid lightgray;
+  background: white;
+  padding: 1rem 1rem;
+  row-gap: 2rem;
+  border-radius: 0.4rem;
+}
+
+.clozeFillElement__optionContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.clozeFillElment__option {
+  background: dodgerblue;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+}
+
+.clozeFillElment__answerArea {
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
+}
+
+.clozeFillElement__input {
+  background: lightgray;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.5rem 1rem;
+  height: 1rem;
+  width: 3rem;
+}

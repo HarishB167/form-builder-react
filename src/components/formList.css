@@ -3,7 +3,16 @@
   flex-direction: column;
   margin: 1rem 5rem;
   background: cornsilk;
+  height: 100%;
 }
+
+.formList_loadingIcon {
+  display: inline-block;
+  width: fit-content;
+  align-self: center;
+  height: 100%;
+}
+
 .formList__item {
   padding: 1rem;
   border: 1px solid lightgreen;
