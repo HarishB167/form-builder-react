@@ -3,9 +3,11 @@ import CategorizeElement from "./elements/categorizeElement";
 import ClozeElement from "./elements/clozeElement";
 import Button from "./elements/common/button";
 import ComprehensionElement from "./elements/comprehensionElement";
+import { saveForm } from "../services/fakeFormBuilderService";
 import "./formBuilder.css";
 
 const FormBuilder = () => {
+  const [formName, setFormName] = useState("");
   const [questionData, setQuestionData] = useState([]);
 
   const handleQuestionDataChange = (id, data) => {
@@ -42,9 +44,19 @@ const FormBuilder = () => {
     addQuestion("comprehension");
   };
 
+  const handleSave = async () => {
+    console.log("Saving");
+    console.log("questionData :>> ", questionData);
+    await saveForm({
+      name: formName,
+      data: questionData,
+    });
+  };
+
   return (
     <div className="formBuilder">
       <div className="formBuilder__title">Form Builder</div>
+
       <div className="formBuilder__content">
         <div className="formBuilder__actions">
           <button onClick={handleAddCategorizingQuestion}>
@@ -56,8 +68,17 @@ const FormBuilder = () => {
           </button>
         </div>
         <div className="formBuilder__list">
-          <div className="formBuilder__listTitle">Create Form</div>
-
+          <div className="formBuilder__formName">
+            <label htmlFor="formName" className="formBuilder__formName__label">
+              Create Form
+            </label>
+            <input
+              id="formName"
+              type="text"
+              value={formName}
+              onChange={(e) => setFormName(e.target.value)}
+            />
+          </div>
           <div className="formBuilder__listItems">
             {questionData.map((item, idx) => (
               <div className="formBuilder__quesRow" key={idx}>
@@ -96,7 +117,7 @@ const FormBuilder = () => {
           </div>
         </div>
         <div className="formBuilder_sideBarRight">
-          <Button label="Save" />
+          <Button label="Save" onClick={handleSave} />
         </div>
       </div>
     </div>

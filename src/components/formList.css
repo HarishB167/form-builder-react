@@ -1,0 +1,38 @@
+.formList {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 5rem;
+  background: cornsilk;
+}
+.formList__item {
+  padding: 1rem;
+  border: 1px solid lightgreen;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.formList__itemTitle {
+  flex: 1;
+}
+
+.formList__btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.formList__btn:hover {
+  filter: invert(0.8);
+}
+
+.formList__btnOpen {
+  border: 1px solid lime;
+  background: greenyellow;
+}
+
+.formList__btnEdit {
+  border: 1px solid red;
+  background: lightpink;
+}
