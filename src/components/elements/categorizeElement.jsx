@@ -11,6 +11,7 @@ const CategorizeElement = ({ data, handleQuestionDataChange }) => {
     if (
       data.hasOwnProperty("questionType") &&
       data.hasOwnProperty("image") &&
+      data.hasOwnProperty("imageData") &&
       data.hasOwnProperty("description") &&
       data.hasOwnProperty("categories") &&
       data.hasOwnProperty("items")
@@ -25,6 +26,7 @@ const CategorizeElement = ({ data, handleQuestionDataChange }) => {
     handleQuestionDataChange({
       questionType: "categorize",
       image: "",
+      imageData: "",
       description: "",
       categories: [],
       items: [],
@@ -37,6 +39,21 @@ const CategorizeElement = ({ data, handleQuestionDataChange }) => {
 
   const handleImagePicked = (e) => {
     handleQuestionDataChange({ ...data, image: e.target.value });
+
+    let imgData = "";
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+
+      reader.addEventListener("load", () => {
+        imgData = reader.result;
+        handleQuestionDataChange({
+          ...data,
+          image: e.target.value,
+          imageData: imgData,
+        });
+      });
+    }
   };
 
   const handleCategoryAdd = () => {

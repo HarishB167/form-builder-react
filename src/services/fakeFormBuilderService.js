@@ -35,6 +35,7 @@ export async function getForm(id) {
 }
 
 export async function saveForm(form) {
+  console.log("form :>> ", form);
   if (form._id) {
     const form = forms.find((item) => item._id === form._id);
     form.data = form.data;

@@ -1,14 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CategorizeElement from "./elements/categorizeElement";
 import ClozeElement from "./elements/clozeElement";
 import Button from "./elements/common/button";
 import ComprehensionElement from "./elements/comprehensionElement";
-import { saveForm } from "../services/fakeFormBuilderService";
+import { saveForm } from "../services/formBuilderService";
 import "./formBuilder.css";
 
 const FormBuilder = () => {
   const [formName, setFormName] = useState("");
   const [questionData, setQuestionData] = useState([]);
+
+  const navigate = useNavigate();
 
   const handleQuestionDataChange = (id, data) => {
     const dt = [...questionData];
@@ -45,12 +48,11 @@ const FormBuilder = () => {
   };
 
   const handleSave = async () => {
-    console.log("Saving");
-    console.log("questionData :>> ", questionData);
     await saveForm({
       name: formName,
       data: questionData,
     });
+    navigate("/");
   };
 
   return (

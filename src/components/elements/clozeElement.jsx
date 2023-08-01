@@ -13,6 +13,7 @@ const ClozeElement = ({ data, handleQuestionDataChange }) => {
     if (
       data.hasOwnProperty("questionType") &&
       data.hasOwnProperty("image") &&
+      data.hasOwnProperty("imageData") &&
       data.hasOwnProperty("text") &&
       data.hasOwnProperty("options") &&
       data.hasOwnProperty("maskingRanges")
@@ -28,6 +29,7 @@ const ClozeElement = ({ data, handleQuestionDataChange }) => {
     handleQuestionDataChange({
       questionType: "cloze",
       image: "",
+      imageData: "",
       text: "",
       options: [],
       maskingRanges: [],
@@ -36,6 +38,21 @@ const ClozeElement = ({ data, handleQuestionDataChange }) => {
 
   const handleImagePicked = (e) => {
     handleQuestionDataChange({ ...data, image: e.target.value });
+
+    let imgData = "";
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+
+      reader.addEventListener("load", () => {
+        imgData = reader.result;
+        handleQuestionDataChange({
+          ...data,
+          image: e.target.value,
+          imageData: imgData,
+        });
+      });
+    }
   };
 
   const handleTextChange = (e) => {

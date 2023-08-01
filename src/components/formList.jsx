@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { getForm, getForms } from "../services/fakeFormBuilderService";
+import { getForm, getForms } from "../services/formBuilderService";
 import "./formList.css";
 
 const FormList = () => {
@@ -9,6 +9,7 @@ const FormList = () => {
   useEffect(() => {
     const retrieveFormList = async () => {
       const f = await getForms();
+      console.log("f :>> ", f);
       setFormsList(f);
     };
     retrieveFormList();

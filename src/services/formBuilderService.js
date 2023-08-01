@@ -1,32 +1,26 @@
 import http from "./httpService";
 
 export async function getForms() {
-  const result = await http.get("/forms/");
+  const result = await http.get("/formBuilder/");
   return result.data;
 }
 
 export async function getForm(id) {
-  const result = await http.get("/forms/" + id);
+  const result = await http.get("/formBuilder/" + id);
   return result.data;
 }
 
 export async function saveForm(form) {
-  const m = {
-    title: form.title,
-    numberInStock: form.numberInStock,
-    dailyRentalRate: form.dailyRentalRate,
-    genre: form.genreId,
-  };
   if (form.id) {
-    const result = await http.put(`/forms/${form.id}/`, m);
+    const result = await http.put(`/formBuilder/${form.id}/`, form);
     return result.data;
   } else {
-    const result = await http.post("/forms/", m);
+    const result = await http.post("/formBuilder/", form);
     return result.data;
   }
 }
 
 export async function deleteForm(id) {
-  const result = await http.delete("/forms/" + id);
+  const result = await http.delete("/formBuilder/" + id);
   return result.data;
 }

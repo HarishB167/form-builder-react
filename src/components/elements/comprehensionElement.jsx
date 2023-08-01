@@ -11,6 +11,7 @@ const ComprehensionElement = ({ data, handleQuestionDataChange }) => {
     if (
       data.hasOwnProperty("questionType") &&
       data.hasOwnProperty("image") &&
+      data.hasOwnProperty("imageData") &&
       data.hasOwnProperty("questions")
     )
       return true;
@@ -23,6 +24,7 @@ const ComprehensionElement = ({ data, handleQuestionDataChange }) => {
     handleQuestionDataChange({
       questionType: "comprehension",
       image: "",
+      imageData: "",
       text: "",
       questions: [],
     });
@@ -34,6 +36,21 @@ const ComprehensionElement = ({ data, handleQuestionDataChange }) => {
 
   const handleImageChange = (e) => {
     handleQuestionDataChange({ ...data, image: e.target.value });
+
+    let imgData = "";
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+
+      reader.addEventListener("load", () => {
+        imgData = reader.result;
+        handleQuestionDataChange({
+          ...data,
+          image: e.target.value,
+          imageData: imgData,
+        });
+      });
+    }
   };
 
   const handleAddQuestion = (question) => {
