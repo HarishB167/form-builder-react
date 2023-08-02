@@ -4,6 +4,7 @@ import { getForm } from "../services/formBuilderService";
 import "./formFill.css";
 import ClozeFillElement from "./fillElements/clozeFillElement";
 import CategorizeFillElement from "./fillElements/categorizeFillElement";
+import ComprehensionFillElement from "./fillElements/comprehensionFillElement";
 
 const FormFill = () => {
   const [formData, setFormData] = useState({});
@@ -37,10 +38,10 @@ const FormFill = () => {
       return (
         <div key={idx}>
           <ClozeFillElement
+            questionNo={idx + 1}
             text={questionItem.text}
             maskingRanges={questionItem.maskingRanges}
             options={questionItem.options}
-            questionNo={idx + 1}
           />
         </div>
       );
@@ -48,15 +49,23 @@ const FormFill = () => {
       return (
         <div key={idx}>
           <CategorizeFillElement
+            questionNo={idx + 1}
             description={questionItem.description}
             categories={questionItem.categories}
             items={questionItem.items}
-            questionNo={idx + 1}
           />
         </div>
       );
     else if (questionItem.questionType === "comprehension")
-      return <div key={idx}>Question item : Comprehension</div>;
+      return (
+        <div key={idx}>
+          <ComprehensionFillElement
+            questionNo={idx + 1}
+            text={questionItem.text}
+            questions={questionItem.questions}
+          />
+        </div>
+      );
   };
 
   return (

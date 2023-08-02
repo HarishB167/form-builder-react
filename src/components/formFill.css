@@ -4,6 +4,16 @@
   background: lightskyblue;
   margin: 2rem 5rem;
   padding: 1rem;
+  row-gap: 1rem;
+}
+
+.formFill__title {
+  padding: 1rem;
+}
+
+.formFill__name {
+  padding: 1rem;
+  font-size: 1.5rem;
 }
 
 .formFill_loading {
