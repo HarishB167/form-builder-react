@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getForm } from "../services/formBuilderService";
 import "./formFill.css";
 import ClozeFillElement from "./fillElements/clozeFillElement";
+import CategorizeFillElement from "./fillElements/categorizeFillElement";
 
 const FormFill = () => {
   const [formData, setFormData] = useState({});
@@ -44,7 +45,16 @@ const FormFill = () => {
         </div>
       );
     else if (questionItem.questionType === "categorize")
-      return <div key={idx}>Question item : Categorize</div>;
+      return (
+        <div key={idx}>
+          <CategorizeFillElement
+            description={questionItem.description}
+            categories={questionItem.categories}
+            items={questionItem.items}
+            questionNo={idx + 1}
+          />
+        </div>
+      );
     else if (questionItem.questionType === "comprehension")
       return <div key={idx}>Question item : Comprehension</div>;
   };

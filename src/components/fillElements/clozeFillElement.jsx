@@ -28,7 +28,7 @@ const ClozeFillElement = ({ text, maskingRanges, options, questionNo }) => {
       <div className="clozeFillElement__header">Question {questionNo}</div>
       <div className="clozeFillElement__optionContainer">
         {options.map((item, idx) => (
-          <span className="clozeFillElment__option" key={idx}>
+          <span className="clozeFillElement__option" key={idx}>
             {item.text}
           </span>
         ))}

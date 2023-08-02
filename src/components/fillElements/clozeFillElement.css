@@ -13,14 +13,15 @@
   justify-content: space-around;
 }
 
-.clozeFillElment__option {
+.clozeFillElement__option {
   background: dodgerblue;
   color: white;
   padding: 0.5rem 1rem;
+  cursor: pointer;
   border-radius: 0.4rem;
 }
 
-.clozeFillElment__answerArea {
+.clozeFillElement__answerArea {
   display: flex;
   column-gap: 0.5rem;
   align-items: center;
