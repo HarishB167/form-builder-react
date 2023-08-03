@@ -23,6 +23,12 @@
   cursor: pointer;
 }
 
+.categorizeFillElement__optionContainer {
+  align-self: center;
+  height: fit-content;
+  width: fit-content;
+}
+
 .categorizeFillElement__categories {
   display: flex;
   flex-wrap: wrap;
@@ -45,5 +51,12 @@
 }
 
 .categorizeFillElement__ctgItems {
-  height: 5rem;
+  min-height: 5rem;
+}
+
+.categorizeFillElement__ctgItems div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.5rem;
 }
