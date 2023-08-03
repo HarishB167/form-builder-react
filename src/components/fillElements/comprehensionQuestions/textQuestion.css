@@ -1,0 +1,6 @@
+.textQuestion__text {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  white-space: pre-wrap;
+}

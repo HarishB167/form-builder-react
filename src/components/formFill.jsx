@@ -9,6 +9,7 @@ import ComprehensionFillElement from "./fillElements/comprehensionFillElement";
 const FormFill = () => {
   const [formData, setFormData] = useState({});
   const [isDataLoading, setIsDataLoading] = useState(false);
+  const [answerData, setAnswerData] = useState({});
 
   const params = useParams();
 
@@ -17,11 +18,21 @@ const FormFill = () => {
       setIsDataLoading(true);
       const data = await getForm(params.id);
       setIsDataLoading(false);
-      console.log("data :>> ", data);
       setFormData(data);
+      setAnswerData({
+        formId: data._id,
+        answers: data.data.map((item) => ({})),
+      });
     };
     retrieveData();
   }, []);
+
+  const handleAnswerDataChange = (index, data) => {
+    const ans = { ...answerData };
+    ans.answers[index] = data;
+    setAnswerData({ ...ans });
+    console.log("ans :>> ", ans);
+  };
 
   if (!formData._id && isDataLoading)
     return (
@@ -42,6 +53,8 @@ const FormFill = () => {
             text={questionItem.text}
             maskingRanges={questionItem.maskingRanges}
             options={questionItem.options}
+            handleAnswerDataChange={(data) => handleAnswerDataChange(idx, data)}
+            answerData={answerData.answers[idx]}
           />
         </div>
       );
@@ -53,6 +66,8 @@ const FormFill = () => {
             description={questionItem.description}
             categories={questionItem.categories}
             items={questionItem.items}
+            handleAnswerDataChange={(data) => handleAnswerDataChange(idx, data)}
+            answerData={answerData.answers[idx]}
           />
         </div>
       );
@@ -63,6 +78,8 @@ const FormFill = () => {
             questionNo={idx + 1}
             text={questionItem.text}
             questions={questionItem.questions}
+            handleAnswerDataChange={(data) => handleAnswerDataChange(idx, data)}
+            answerData={answerData.answers[idx]}
           />
         </div>
       );

@@ -1,0 +1,10 @@
+.mcq,
+.mcq__qOptions {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.mcq__qOptions label {
+  margin-left: 1rem;
+}
