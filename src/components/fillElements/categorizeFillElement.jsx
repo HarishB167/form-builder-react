@@ -63,7 +63,10 @@ const CategorizeFillElement = ({
   };
 
   useEffect(() => {
-    handleAnswerDataChange(categoriesAnswer);
+    handleAnswerDataChange({
+      questionType: "categorize",
+      answer: categoriesAnswer,
+    });
   }, [categoriesAnswer]);
 
   return (

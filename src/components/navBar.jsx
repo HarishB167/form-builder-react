@@ -12,10 +12,10 @@ const NavBar = () => {
         Home
       </NavLink>
       <NavLink to="/builder" className={getNavLinkClass}>
-        Form Builder
+        Builder
       </NavLink>
-      <NavLink to="/fill" className={getNavLinkClass}>
-        Fill
+      <NavLink to="/formResponses" className={getNavLinkClass}>
+        Responses
       </NavLink>
     </div>
   );

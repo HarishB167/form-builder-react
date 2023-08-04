@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getForm } from "../services/formBuilderService";
-import "./formFill.css";
 import ClozeFillElement from "./fillElements/clozeFillElement";
 import CategorizeFillElement from "./fillElements/categorizeFillElement";
 import ComprehensionFillElement from "./fillElements/comprehensionFillElement";
+import { saveForm } from "../services/formFillService";
+import "./formFill.css";
 
 const FormFill = () => {
   const [formData, setFormData] = useState({});
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [answerData, setAnswerData] = useState({});
+  const [isSumbitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const params = useParams();
 
@@ -21,7 +24,7 @@ const FormFill = () => {
       setFormData(data);
       setAnswerData({
         formId: data._id,
-        answers: data.data.map((item) => ({})),
+        data: data.data.map((item) => ({})),
       });
     };
     retrieveData();
@@ -29,10 +32,38 @@ const FormFill = () => {
 
   const handleAnswerDataChange = (index, data) => {
     const ans = { ...answerData };
-    ans.answers[index] = data;
+    ans.data[index] = data;
     setAnswerData({ ...ans });
     console.log("ans :>> ", ans);
   };
+
+  const handleSubmit = async () => {
+    try {
+      await saveForm(answerData);
+      setIsSubmitted(true);
+    } catch (e) {
+      alert("Unknown error occured");
+    }
+  };
+
+  useEffect(() => {
+    if (isSumbitted) {
+      const timer = setTimeout(() => {
+        navigate("/formResponses");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSumbitted]);
+
+  if (isSumbitted)
+    return (
+      <div className="formFill__submitted">
+        <div className="formFill__submittedHeading">Form submitted</div>
+        <div className="formFill__submittedContent">
+          Thanks for submitting form.
+        </div>
+      </div>
+    );
 
   if (!formData._id && isDataLoading)
     return (
@@ -54,7 +85,7 @@ const FormFill = () => {
             maskingRanges={questionItem.maskingRanges}
             options={questionItem.options}
             handleAnswerDataChange={(data) => handleAnswerDataChange(idx, data)}
-            answerData={answerData.answers[idx]}
+            answerData={answerData.data[idx]}
           />
         </div>
       );
@@ -67,7 +98,7 @@ const FormFill = () => {
             categories={questionItem.categories}
             items={questionItem.items}
             handleAnswerDataChange={(data) => handleAnswerDataChange(idx, data)}
-            answerData={answerData.answers[idx]}
+            answerData={answerData.data[idx]}
           />
         </div>
       );
@@ -79,7 +110,7 @@ const FormFill = () => {
             text={questionItem.text}
             questions={questionItem.questions}
             handleAnswerDataChange={(data) => handleAnswerDataChange(idx, data)}
-            answerData={answerData.answers[idx]}
+            answerData={answerData.data[idx]}
           />
         </div>
       );
@@ -87,7 +118,12 @@ const FormFill = () => {
 
   return (
     <div className="formFill">
-      <div className="formFill__title">Form Filling</div>
+      <div className="formFill__heading">
+        <div className="formFill__title">Form Filling</div>
+        <button className="formFill__submitForm" onClick={handleSubmit}>
+          Submit
+        </button>
+      </div>
       <div className="formFill__name">{formData.name}</div>
       {formData.data &&
         formData.data.map((item, idx) => renderQuestion(item, idx))}

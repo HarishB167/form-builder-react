@@ -1,7 +1,6 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getForm, getForms } from "../services/formBuilderService";
+import { getForms } from "../services/formBuilderService";
 import "./formList.css";
 
 const FormList = () => {
@@ -20,13 +19,24 @@ const FormList = () => {
     retrieveFormList();
   }, []);
 
+  const handleCreateForm = () => {
+    navigate("/builder");
+  };
+
   const handleOpen = (id) => {
     console.log("id :>> ", id);
     navigate(`/formFill/${id}`);
   };
 
+  const handleEdit = () => {
+    alert("To be implemented");
+  };
+
   return (
     <div className="formList">
+      <button className="formList__createForm" onClick={handleCreateForm}>
+        Create Form
+      </button>
       {isDataLoading && formsList.length === 0 && (
         <span className="formList_loadingIcon">
           <i className="fa-solid fa-bars-staggered fa-flip"></i>
@@ -41,7 +51,12 @@ const FormList = () => {
           >
             Open
           </button>
-          <button className="formList__btn formList__btnEdit">Edit</button>
+          <button
+            className="formList__btn formList__btnEdit"
+            onClick={handleEdit}
+          >
+            Edit
+          </button>
         </div>
       ))}
     </div>

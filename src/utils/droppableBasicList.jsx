@@ -14,10 +14,11 @@ const DroppableBasicList = ({
     if (snapshot.isDragging) {
       return {
         ...style,
-        position: "relative",
+        position: "static",
         marginBottom: `-${style.height}px`,
+        marginLeft: `${style.width}px`,
         top: "0",
-        left: "0",
+        left: `0`,
       };
     }
     return style;
